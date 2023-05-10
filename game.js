@@ -92,6 +92,32 @@ class Demo2 extends AdventureScene {
     }
 }
 
+preload() {
+    
+}
+
+class Title extends Phaser.Scene {
+    constructor() {
+        super('title')
+    }
+    create() {
+        let background = this.add.sprite(0, 0, )
+
+        let titleText = this.add.text(530,200, "Cybernetic Love");
+        titleText.setFontFamily("Roboto Serif");
+        titleText.setAlign("center");
+        titleText.setFontSize(120);
+        titleText.setColor("Blue");
+
+        let playText = this.add.text(880, 600, "Play");
+        playText.setFontFamily("Roboto Serif");
+        playText.setAlign("center");
+        playText.setFontSize(80);
+        playText.setColor("Blue");
+    }
+}
+
+//Intro
 class Intro extends Phaser.Scene {
     constructor() {
         super('intro')
@@ -105,7 +131,7 @@ class Intro extends Phaser.Scene {
         });
     }
 }
-
+//Outro
 class Outro extends Phaser.Scene {
     constructor() {
         super('outro');
@@ -125,7 +151,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro],
+    scene: [Title, Intro, Demo1, Demo2, Outro],
     title: "Adventure Game",
 });
 
