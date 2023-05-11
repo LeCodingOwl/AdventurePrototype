@@ -92,9 +92,9 @@ class Demo2 extends AdventureScene {
     }
 }
 
-preload() {
+//preload() {
     
-}
+//}
 
 class Title extends Phaser.Scene {
     constructor() {
@@ -114,6 +114,17 @@ class Title extends Phaser.Scene {
         playText.setAlign("center");
         playText.setFontSize(80);
         playText.setColor("Blue");
+        playText.setInteractive();
+        playText.on(Phaser.Input.Events.POINTER_OVER, function() {
+            playText.setColor("White");
+        })
+        playText.on(Phaser.Input.Events.POINTER_OUT, function() {
+            playText.setColor("Blue");
+        })
+        playText.on(Phaser.Input.Events.POINTER_DOWN, () => {
+            this.cameras.main.fade(1000, 0,0,0);
+            this.time.delayedCall(1000, () => this.scene.start('intro')); 
+        })
     }
 }
 
@@ -123,7 +134,7 @@ class Intro extends Phaser.Scene {
         super('intro')
     }
     create() {
-        this.add.text(50,50, "Adventure awaits!").setFontSize(50);
+        this.add.text(50,50, "Adventure awaits!").setFontSize(50).setAlign("center");
         this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
