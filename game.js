@@ -5,13 +5,18 @@ class Ch1 extends AdventureScene {
 
     preload() {
         this.load.image("warehouse", "assets/images/backgrounds/warehouseEdit.jpg");
+        this.load.image("Ryu", "assets/images/characters/Ryu.png");
         
     }
 
     onEnter() {
-       let background = this.add.sprite(720, 545, "warehouse");
-       background.scaleX = 1.5;
+       let background = this.add.sprite(670, 543, "warehouse");
+       background.scaleX = 1.6;
        background.scaleY = 2;
+
+       let ryu = this.add.sprite(180, 900, "Ryu");
+
+       this.showMessage("(Ryu is in front of the door of the warehouse where the valuable information is located. He manages unlock the lock and enters the into the warehouse)");
 
         let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
             .setFontSize(this.s * 2)
