@@ -1,9 +1,17 @@
-class Demo1 extends AdventureScene {
+class Ch1 extends AdventureScene {
     constructor() {
-        super("demo1", "First Room");
+        super("ch1", "Two Minds Think Alike:");
+    }
+
+    preload() {
+        this.load.image("warehouse", "assets/images/backgrounds/warehouseEdit.jpg");
+        
     }
 
     onEnter() {
+       let background = this.add.sprite(720, 545, "warehouse");
+       background.scaleX = 1.5;
+       background.scaleY = 2;
 
         let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
             .setFontSize(this.s * 2)
@@ -134,11 +142,33 @@ class Intro extends Phaser.Scene {
         super('intro')
     }
     create() {
-        this.add.text(50,50, "Adventure awaits!").setFontSize(50).setAlign("center");
-        this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
+        this.add.text(50,50, "Introduction:").setFontSize(50)
+        .setFontFamily("Roboto Serif");
+        this.add.text(50,100, "In a futuristic city, there were two boys named Ryu and Takumi. They lived in a world where technology had advanced so much that people could augment their bodies with cybernetic enhancements. Ryu was a skilled hacker, while Takumi was a genius engineer who built advanced cybernetic limbs.")
+        .setFontFamily("Roboto Serif")
+        .setFontSize(40)
+        .setWordWrapWidth(1000);
+
+        this.add.text(50, 400, "Our Story begins with Ryu, a skilled hacker, who overhears rumors of a genius engineer named Takumi, renowned for his advanced cybernetic limbs. Eager to learn more, Ryu decides to hack into Takumi’s system to steal the valuable information.")
+        .setFontFamily("Roboto Serif")
+        .setFontSize(40)
+        .setWordWrapWidth(1000);
+
+        let continueButt = this.add.text(50,750, "Click anywhere to continue.")
+        .setFontFamily("Roboto Serif")
+        .setFontSize(40);
+        
+        this.tweens.add({
+            targets: continueButt,
+            alpha: 0.1,
+            yoyo: true,
+            duration: 1200,
+            repeat: -1
+        });
+
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('demo1'));
+            this.time.delayedCall(1000, () => this.scene.start('ch1'));
         });
     }
 }
@@ -162,7 +192,8 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Title, Intro, Demo1, Demo2, Outro],
+    //scene: [Title, Intro, Ch1, Demo2, Outro],
+    scene: [Ch1],
     title: "Adventure Game",
 });
 
