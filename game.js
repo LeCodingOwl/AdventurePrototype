@@ -6,18 +6,106 @@ class Ch1 extends AdventureScene {
     preload() {
         this.load.image("warehouse", "assets/images/backgrounds/warehouseEdit.jpg");
         this.load.image("Ryu", "assets/images/characters/Ryu.png");
+        this.load.image("Takumi", "assets/images/characters/Takumi.png");
+        this.load.image("lock", "assets/images/sprites/lock.png");
+        this.load.image("cabinet", "assets/images/sprites/cabinet.png");
+        this.load.image("note", "assets/images/sprites/note.png");
         
     }
 
     onEnter() {
-       let background = this.add.sprite(670, 543, "warehouse");
+       let background = this.add.sprite(670, 300, "warehouse");
        background.scaleX = 1.6;
        background.scaleY = 2;
 
-       let ryu = this.add.sprite(180, 900, "Ryu");
+       let ryu = this.add.sprite(180, 800, "Ryu");
+       let takumi = this.add.sprite(500, 800, "Takumi");
+       takumi.alpha = 0;
 
-       this.showMessage("(Ryu is in front of the door of the warehouse where the valuable information is located. He manages unlock the lock and enters the into the warehouse)");
+       //Textbox; Should cover the character's lower torso
+       this.add.rectangle(700, 990, 1500, 300, 0x000000);
 
+       this.label = this.add.text(40, 870, '')
+       .setFontFamily("Roboto Serif")
+       .setFontSize(30)
+       .setWordWrapWidth(1400);
+       this.typewriteText("Objective: Locate the passcode.");
+
+       /*this.label = this.add.text(40, 870, '')
+       .setFontFamily("Roboto Serif")
+       .setFontSize(30)
+       .setWordWrapWidth(1400);
+       this.typewriteText("(Ryu is in front of the door of the warehouse where the valuable information is located. He manages unlock the lock and enters the into the warehouse)")
+       this.input.on('pointerdown', () => {
+        this.label.visible = false;
+
+       this.label = this.add.text(40, 870, '')
+       .setFontFamily("Roboto Serif")
+       .setFontSize(30)
+       .setWordWrapWidth(1400);
+       this.label.visible = true;
+       this.typewriteText("Ryu: Alright… Now… Where would I find that data..?")
+       });
+       */
+
+       let cabinet = this.add.sprite(this.w * 0.3, this.w * 0.35, "cabinet")
+       .setInteractive()
+       .on('pointerover', () => this.showMessage("A cabinet. Probably hiding something important in it."))
+       .on('pointerdown', () => {
+            let note = this.add.sprite(this.w * 0.3, this.w * 0.30, "note")
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("It's a note. There seems to be writing on the note. 1-2-3-4.")
+            })
+            .on('pointerdown', () => {
+                this.showMessage("You pick up the note.");
+                this.gainItem('note');
+                this.tweens.add({
+                    targets: note,
+                    y: `-=${2 * this.s}`,
+                    alpha: { from: 1, to: 0 },
+                    duration: 500,
+                    onComplete: () => note.destroy()
+                });
+            })
+       })
+
+       let lock = this.add.sprite(this.w * 0.6, this.w * 0.3, "lock")
+       .setInteractive()
+       .on('pointerover', () => {
+        if (this.hasItem("note")) {
+            this.showMessage("You've got the code for this lock.");
+        } else {
+            this.showMessage("The combination for the lock has to be somewhere...");
+        }
+        })
+        .on('pointerdown', () => {
+            if (this.hasItem("note")) {
+                this.loseItem("note");
+
+                this.showMessage("Ryu: Alright… Now where would I find the information?");
+                /*this.input.on('pointerdown', () => {
+                    this.showMessage()
+                }
+                */
+
+                this.time.delayedCall(600, () =>this.showMessage("Takumi: Well you’re most certainly not going to find it here."));
+                takumi.alpha = 100;
+
+                this.time.delayedCall(900, () =>this.showMessage("Ryu: Ah! … How long have you been standing here..?"));
+
+                this.time.delayedCall(1200, () =>this.showMessage("Takumi: Long enough. Quite bold of you to hack your way into my warehouse. What do you want?"));
+
+                this.time.delayedCall(1500, () =>this.showMessage("Ryu: I was curious about the person behind these cybernetic limbs. Say… How about we work together instead? With my amazing hacking abilities and your genius mind, we can make some revolutionary stuff."));
+
+                this.time.delayedCall(1700, () =>this.showMessage("Takumi: Hmm… Sure."));
+
+                this.gotoScene()
+            }
+
+        })
+    }
+    /*
         let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
             .setFontSize(this.s * 2)
             .setInteractive()
@@ -33,7 +121,8 @@ class Ch1 extends AdventureScene {
                     duration: 100
                 });
             });
-
+    */
+   /*
         let key = this.add.text(this.w * 0.5, this.w * 0.1, "🔑 key")
             .setFontSize(this.s * 2)
             .setInteractive()
@@ -70,9 +159,40 @@ class Ch1 extends AdventureScene {
                     this.gotoScene('demo2');
                 }
             })
+            */
 
     }
-}
+
+    class Ch2 extends AdventureScene {
+        constructor() {
+            super("ch2", "A Bound Beginning to Blossom:");
+        }
+
+        preload() {
+            this.load.image("warehouse", "assets/images/backgrounds/warehouseEdit.jpg");
+            this.load.image("Ryu", "assets/images/characters/Ryu.png");
+            this.load.image("Takumi", "assets/images/characters/Takumi.png");
+        }
+
+        onEnter() {
+            let background = this.add.sprite(670, 300, "warehouse");
+            background.scaleX = 1.6;
+            background.scaleY = 2;
+
+            let ryu = this.add.sprite(180, 800, "Ryu");
+            let takumi = this.add.sprite(1000, 800, "Takumi");
+
+            //Textbox; Should cover the character's lower torso
+            this.add.rectangle(700, 990, 1500, 300, 0x000000);
+
+            this.label = this.add.text(40, 870, '')
+            .setFontFamily("Roboto Serif")
+            .setFontSize(30)
+            .setWordWrapWidth(1400);
+            this.typewriteText("Objective: Locate the passcode.");
+        }
+    }
+
 
 class Demo2 extends AdventureScene {
     constructor() {
@@ -104,10 +224,6 @@ class Demo2 extends AdventureScene {
             .on('pointerdown', () => this.gotoScene('outro'));
     }
 }
-
-//preload() {
-    
-//}
 
 class Title extends Phaser.Scene {
     constructor() {
