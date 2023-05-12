@@ -172,15 +172,65 @@ class Ch1 extends AdventureScene {
             this.load.image("warehouse", "assets/images/backgrounds/warehouseEdit.jpg");
             this.load.image("Ryu", "assets/images/characters/Ryu.png");
             this.load.image("Takumi", "assets/images/characters/Takumi.png");
+            this.load.image("Arrow", "assets/images/sprites/arrow.png");
+
         }
 
         onEnter() {
+            let talkWithRyu = false;
+            let talkWithTaku = false;
+
             let background = this.add.sprite(670, 300, "warehouse");
             background.scaleX = 1.6;
             background.scaleY = 2;
 
-            let ryu = this.add.sprite(180, 800, "Ryu");
-            let takumi = this.add.sprite(1000, 800, "Takumi");
+            let ryu = this.add.sprite(180, 800, "Ryu")
+            .setInteractive()
+            .on('pointerover', () => {
+                if(talkWithRyu == true)
+                {
+                    this.showMessage("You already interacted with Ryu");
+                }
+                else
+                {
+                    this.showMessage("It seems like Ryu has something to say");
+                }
+
+
+            })
+            .on('pointerdown', () => {
+                talkWithRyu = true;
+                this.time.delayedCall(100, () => this.showMessage("Takumi: Your hacking skills are very impressive, Ryu."))
+                this.time.delayedCall(300, () => this.showMessage("Ryu: Haha yeah, well I’ve been practicing, honing my skills."))
+                this.time.delayedCall(500, () => this.showMessage("Takumi admires Ryu for his intelligence and adventurous spirit."))
+            })
+            let takumi = this.add.sprite(1300, 800, "Takumi")
+            .setInteractive()
+            .on('pointerover', () => {
+                if(talkWithTaku == true)
+                {
+                    this.showMessage("You already interacted with Takumi");
+                }
+                else
+                {
+                    this.showMessage("It seems like Takumi has something to say");
+                }
+
+
+            })
+            .on('pointerdown', () => {
+                talkWithTaku = true;
+                this.time.delayedCall(100, () => this.showMessage("Ryu: You know, Takumi, your creations are amazing. They're like works of art. I've never seen such intricate designs."))
+                this.time.delayedCall(300, () => this.showMessage("Takumi: Thank you Ryu. I pour my heart and soul into every piece I build."))
+                this.time.delayedCall(500, () => this.showMessage("Ryu finds himself drawn to Takumi’s quiet determination and unwavering focus."))
+            })
+
+            let arrow = this.add.sprite(750, 600, "Arrow")
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Move to the next chapter?");
+            })
+            .on('pointerdown', () => this.gotoScene('outro'))
 
             //Textbox; Should cover the character's lower torso
             this.add.rectangle(700, 990, 1500, 300, 0x000000);
@@ -189,7 +239,7 @@ class Ch1 extends AdventureScene {
             .setFontFamily("Roboto Serif")
             .setFontSize(30)
             .setWordWrapWidth(1400);
-            this.typewriteText("Objective: Locate the passcode.");
+            this.typewriteText("Objective: Interact with the characters or click the arrow to move to the next chapter.");
         }
     }
 
@@ -314,7 +364,7 @@ const game = new Phaser.Game({
         height: 1080
     },
     //scene: [Title, Intro, Ch1, Demo2, Outro],
-    scene: [Ch1],
+    scene: [Ch2],
     title: "Adventure Game",
 });
 
