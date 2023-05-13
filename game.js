@@ -100,7 +100,7 @@ class Ch1 extends AdventureScene {
 
                 this.time.delayedCall(1700, () =>this.showMessage("Takumi: Hmm… Sure."));
 
-                this.gotoScene()
+                this.time.delayedCall(2000, () =>this.gotoScene('ch2'));
             }
 
         })
@@ -230,7 +230,10 @@ class Ch1 extends AdventureScene {
             .on('pointerover', () => {
                 this.showMessage("Move to the next chapter?");
             })
-            .on('pointerdown', () => this.gotoScene('outro'))
+            .on('pointerdown', () => {
+                this.cameras.main.fade(1000, 0,0,0);
+                this.time.delayedCall(900, () => this.gotoScene('ch3'));
+            });
 
             //Textbox; Should cover the character's lower torso
             this.add.rectangle(700, 990, 1500, 300, 0x000000);
@@ -244,6 +247,89 @@ class Ch1 extends AdventureScene {
     }
 
 
+class Ch3 extends AdventureScene {
+    constructor() {
+        super("ch3", "Fighting Through:")
+    }
+    preload() {
+        this.load.image("hall", "assets/images/backgrounds/officeHallEdit.jpg");
+        this.load.image("drone", "assets/images/sprites/evilDrone.png");
+    }
+    onEnter() {
+        let background = this.add.sprite(670, 300, "hall");
+        background.scaleX = 1.6;
+        background.scaleY = 2;
+
+        let drone = this.add.sprite(this.w * 0.6, this.w * 0.2, "drone")
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage('*buzz*');
+                this.tweens.add({
+                    targets: drone,
+                    x: this.s + (this.h - 2 * this.s) * Math.random(),
+                    y: this.s + (this.h - 2 * this.s) * Math.random(),
+                    ease: 'Sine.inOut',
+                    duration: 500
+                });
+            })
+            .on('pointerdown', () => this.gotoScene('ch4'));
+        
+        //Textbox; Should cover the character's lower torso
+        this.add.rectangle(700, 990, 1500, 300, 0x000000);
+
+        this.label = this.add.text(40, 870, '')
+        .setFontFamily("Roboto Serif")
+        .setFontSize(30)
+        .setWordWrapWidth(1400);
+        this.typewriteText("Objective: Destroy the drone");
+    }
+}
+
+class Ch4 extends AdventureScene {
+    constructor() {
+        super("ch4", "The The Greatest Achievement:")
+    }
+
+    preload() {
+        this.load.image("townhall", "assets/images/backgrounds/townHallEdit.jpg");
+        this.load.image("Ryu", "assets/images/characters/Ryu.png");
+        this.load.image("Takumi", "assets/images/characters/Takumi.png");
+    }
+    onEnter() {
+        let background = this.add.sprite(670, 300, "townhall");
+            background.scaleX = 1.6;
+            background.scaleY = 2;
+
+        let ryu = this.add.sprite(180, 800, "Ryu")
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("That's not Takumi!");
+        })
+
+        let takumi = this.add.sprite(1300, 800, "Takumi")
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Give him a kiss!");
+            })
+            .on('pointerdown', () => {
+                this.showMessage("*Kiss* AWWW");
+                this.cameras.main.fade(1000, 0,0,0);
+                this.time.delayedCall(900, () => this.gotoScene('outro'))
+            });
+
+
+        //Textbox; Should cover the character's lower torso
+        this.add.rectangle(700, 990, 1500, 300, 0x000000);
+
+        this.label = this.add.text(40, 870, '')
+        .setFontFamily("Roboto Serif")
+        .setFontSize(30)
+        .setWordWrapWidth(1400);
+        this.typewriteText("You did it! You save the city. Now, give Takumi a kiss <3 (Click on Takumi)");
+    }
+}
+
+/*
 class Demo2 extends AdventureScene {
     constructor() {
         super("demo2", "The second room has a long name (it truly does).");
@@ -274,7 +360,7 @@ class Demo2 extends AdventureScene {
             .on('pointerdown', () => this.gotoScene('outro'));
     }
 }
-
+*/
 class Title extends Phaser.Scene {
     constructor() {
         super('title')
@@ -349,8 +435,14 @@ class Outro extends Phaser.Scene {
         super('outro');
     }
     create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
+        this.add.text(50,50, "The End:").setFontSize(50)
+        .setFontFamily("Roboto Serif");
+        this.add.text(50,100, "After defeating the CEO of BioCorp, Ryu and Takumi return back to the city, where they are greeted by everyone and awarded medals for their bravery for saving the city. As they wave to everyone in the city, the two look at each other, knowing that the greatest achievement wasn’t saving the city, but it was their love for each other. Their bond was unbreakable, and they knew that they would always be together, even in the faces of danger.")
+        .setFontSize(40)
+        .setWordWrapWidth(1000);
+        let continueButt = this.add.text(50,750, "Click anywhere to start over")
+        .setFontFamily("Roboto Serif")
+        .setFontSize(40);
         this.input.on('pointerdown', () => this.scene.start('intro'));
     }
 }
@@ -363,8 +455,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    //scene: [Title, Intro, Ch1, Demo2, Outro],
-    scene: [Ch2],
-    title: "Adventure Game",
+    scene: [Title, Intro, Ch1, Ch2, Ch3, Ch4, Outro],
+    title: "Cybernetic Love",
 });
 
